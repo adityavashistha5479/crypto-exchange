@@ -17,7 +17,6 @@ A high-performance, event-driven cryptocurrency exchange and paper trading platf
 - [System Architecture](#-system-architecture)
 - [Technology Stack](#-technology-stack)
 - [Order Lifecycle & State Machine](#-order-lifecycle--state-machine)
-- [System Invariants & Core Rules](#-system-invariants--core-rules)
 - [API & WebSocket Specifications](#-api--websocket-specifications)
 - [Repository Structure](#-repository-structure)
 - [Documentation & References](#-documentation--references)
@@ -129,20 +128,6 @@ stateDiagram-v2
 2. **Terminal State Immutability:** An order in `FILLED` or `CANCELLED` state can never transition again.
 3. **Cancellation Boundaries:** Cancellations only release the remaining, unfilled portion of an order.
 4. **One-to-One Trade Mapping:** Every fill step produces an immutable `Trade` entity.
-
----
-
-## ⚖️ System Invariants & Core Rules
-
-> [!IMPORTANT]
-> **Fundamental Financial Invariant:**  
-> A trade must **never** create, destroy, or duplicate funds.
-
-- **Matching Limit:** $\text{filled\_quantity} \le \text{quantity}$
-- **Execution Bound:** $\text{trade.quantity} \le \min(\text{buy.remaining\_quantity},\ \text{sell.remaining\_quantity})$
-- **Balance Conservation:** $\text{total\_balance} = \text{available\_balance} + \text{locked\_balance}$
-- **Strict Non-Negativity:** $\text{available\_balance} \ge 0$ and $\text{locked\_balance} \ge 0$ at all times.
-- **Position Reproducibility:** All position states must be strictly reconstructible from trade and settlement logs.
 
 ---
 
